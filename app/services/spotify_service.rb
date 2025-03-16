@@ -1,7 +1,7 @@
 class SpotifyService < MusicPlatformService
   BASE_API_URL = "https://api.spotify.com/v1".freeze
   AUTH_URL = "https://accounts.spotify.com/api/token".freeze
-  PLATFORM = "spotify".freeze
+  PLATFORM = :spotify
 
   attr_reader :access_token
 

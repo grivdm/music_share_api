@@ -6,7 +6,7 @@ class Track < ApplicationRecord
 
 
   def available_platforms
-    platform_tracks.pluck(:platform)
+    platform_tracks.pluck(:platform).map(&:to_s)
   end
 
   def get_url(platform)
