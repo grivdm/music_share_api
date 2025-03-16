@@ -1,7 +1,16 @@
 class ConversionRequest < ApplicationRecord
   validates :source_platform, :source_url, presence: true
 
-  enum :source_platform, { spotify: "spotify", deezer: "deezer" }, default: "spotify"
+  PLATFORMS = %w[spotify deezer].freeze
+  validates :source_platform, inclusion: { in: PLATFORMS }
+
+  before_validation :set_default_platform
+
+  private
+
+  def set_default_platform
+    self.source_platform ||= "spotify"
+  end
 
   scope :successful, -> { where(successful: true) }
   scope :failed, -> { where(successful: false) }

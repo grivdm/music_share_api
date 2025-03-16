@@ -2,8 +2,8 @@ class LinkConverterService
   class Error < StandardError; end
 
   PLATFORM_SERVICES = {
-    "spotify" => SpotifyService,
-    "deezer" => DeezerService
+    spotify: SpotifyService,
+    deezer: DeezerService
   }.freeze
 
   attr_reader :services
@@ -81,9 +81,9 @@ class LinkConverterService
 
   def detect_platform(url)
     if url.to_s.include?("spotify.com")
-      "spotify"
+      :spotify
     elsif url.to_s.include?("deezer.com")
-      "deezer"
+      :deezer
     else
       nil
     end

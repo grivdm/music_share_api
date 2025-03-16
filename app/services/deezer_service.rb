@@ -1,6 +1,6 @@
 class DeezerService < MusicPlatformService
   BASE_API_URL = "https://api.deezer.com".freeze
-  PLATFORM = "deezer".freeze
+  PLATFORM = :deezer
 
   def get_track_from_url(url)
     track_id = parse_track_url(url)

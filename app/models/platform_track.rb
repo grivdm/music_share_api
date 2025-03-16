@@ -6,5 +6,6 @@ class PlatformTrack < ApplicationRecord
   validates :url, presence: true
   validates :platform, uniqueness: { scope: :track_id }
 
-  enum :platform, { spotify: "spotify", deezer: "deezer" }
+  PLATFORMS = %w[spotify deezer].freeze
+  validates :platform, inclusion: { in: PLATFORMS }
 end
