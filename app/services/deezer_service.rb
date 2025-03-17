@@ -67,7 +67,19 @@ class DeezerService < MusicPlatformService
     # https://www.deezer.com/track/{id}
     # or https://www.deezer.com/en/track/{id}
     match = url.to_s.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
-    match[1] if match
+    return match[1] if match
+
+    # Short URL format: https://dzr.page.link/{random_id}
+    if url.to_s.include?("dzr.page.link")
+      response = HTTParty.head(url.to_s, follow_redirects: false)
+      if response.code == 302 && response.headers["location"].present?
+        redirect_url = response.headers["location"]
+        match = redirect_url.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
+        return match[1] if match
+      end
+    end
+
+    nil
   end
 
   def parse_track_data(data)

@@ -82,7 +82,7 @@ class LinkConverterService
   def detect_platform(url)
     if url.to_s.include?("spotify.com")
       :spotify
-    elsif url.to_s.include?("deezer.com")
+    elsif url.to_s.include?("deezer.com") || url.to_s.include?("dzr.page.link")
       :deezer
     else
       nil
