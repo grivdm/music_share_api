@@ -1,11 +1,11 @@
-<% require "dotenv"; Dotenv.load(".env") %>
+<% require 'dotenv'; Dotenv.load('.env') %>
 service: music_share_api
-image: <%= ENV.fetch("DOCKER_USERNAME") %>/music_share_api
+image: grivdm/music_share_api
 
 # Only include your actual server IP
 servers:
   web:
-    - <%= ENV.fetch("SERVER_IP") %>
+    - <%= ENV['SERVER_IP'] %>
 registry:
   username: ${DOCKER_USERNAME}
   password: ${KAMAL_REGISTRY_PASSWORD}
@@ -16,16 +16,16 @@ env:
     - SPOTIFY_CLIENT_SECRET
   clear:
     RAILS_ENV: production
-    DATABASE_USERNAME:  <%= ENV.fetch("DATABASE_USERNAME") %>
-    DATABASE_PASSWORD: <%= ENV.fetch("DATABASE_PASSWORD") %>
+    DATABASE_USERNAME:  <%= ENV['DATABASE_USERNAME'] %>
+    DATABASE_PASSWORD: <%= ENV['DATABASE_PASSWORD'] %>
     DATABASE_HOST: music_share_api-db
-    DATABASE_PORT: <%= ENV.fetch("DATABASE_PORT") %>
+    DATABASE_PORT: <%= ENV['DATABASE_PORT'] %>
 ssh:
-  user: <%= ENV.fetch("SSH_USERNAME") %>
-  key_data: <%= ENV.fetch("SSH_PRIVATE_KEY").lines.map(&:strip) %>
+  user: deploy
+  key_data: [<%= ENV['SSH_PRIVATE_KEY'].inspect %>]
 
 volumes:
-  - "music_share_api_storage:/rails/storage"
+  - 'music_share_api_storage:/rails/storage'
 
 builder:
   arch: amd64
@@ -34,11 +34,11 @@ builder:
 accessories:
   db:
     image: postgres:15
-    host: <%= ENV.fetch("DATABASE_HOST") %>
-    port: <%= ENV.fetch("DATABASE_PORT") %>
+    host: <%= ENV['DATABASE_HOST'] %>
+    port: <%= ENV['DATABASE_PORT'] %>
     env:
-      POSTGRES_USER: <%= ENV.fetch("DATABASE_USERNAME") %>
-      POSTGRES_PASSWORD: <%= ENV.fetch("DATABASE_PASSWORD") %>
+      POSTGRES_USER: <%= ENV['DATABASE_USERNAME'] %>
+      POSTGRES_PASSWORD: <%= ENV['DATABASE_PASSWORD'] %>
       POSTGRES_DB: music_share_api_production
     volumes:
       - data:/var/lib/postgresql/data
