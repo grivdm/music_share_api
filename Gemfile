@@ -30,7 +30,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 gem "dotenv-rails", "~> 3.1"
-gem "httparty", "~> 0.21"
+gem "httparty", "~> 0.23"
 gem "redis", "~> 5.0"
 gem "sidekiq", "~> 8.0"
 gem "rack-cors", "~> 2.0"
