@@ -34,3 +34,4 @@ jobs:
         run: |
           bundle exec kamal setup
           bundle exec kamal deploy
+

@@ -1,7 +1,7 @@
-<% require 'dotenv'; Dotenv.load('.env') %>
-service: music_share_api
-image: grivdm/music_share_api
 
+<% require "dotenv"; Dotenv.load(".env") %>
+service: music_share_api
+image: <%= ENV.fetch("DOCKER_USERNAME") %>/music_share_api
 # Only include your actual server IP
 servers:
   web:
@@ -16,6 +16,7 @@ env:
     - SPOTIFY_CLIENT_SECRET
   clear:
     RAILS_ENV: production
+
     DATABASE_USERNAME:  <%= ENV['DATABASE_USERNAME'] %>
     DATABASE_PASSWORD: <%= ENV['DATABASE_PASSWORD'] %>
     DATABASE_HOST: music_share_api-db
@@ -34,6 +35,7 @@ builder:
 accessories:
   db:
     image: postgres:15
+
     host: <%= ENV['DATABASE_HOST'] %>
     port: <%= ENV['DATABASE_PORT'] %>
     env:
