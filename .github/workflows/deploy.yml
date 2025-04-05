@@ -32,7 +32,5 @@ jobs:
           DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        run: |
-          bundle exec kamal setup
-          bundle exec kamal deploy
+        run: bundle exec kamal deploy
 
