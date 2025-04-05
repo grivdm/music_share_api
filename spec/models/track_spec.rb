@@ -6,13 +6,12 @@ RSpec.describe Track, type: :model do
   end
 
   describe "validations" do
-    it { should validate_presence_of(:isrc) }
     it { should validate_presence_of(:title) }
     it { should validate_presence_of(:artist) }
 
     describe "uniqueness" do
       subject { create(:track) }
-      it { should validate_uniqueness_of(:isrc) }
+      it { should validate_uniqueness_of(:isrc).allow_blank }
     end
   end
 

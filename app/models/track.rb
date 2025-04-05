@@ -1,7 +1,7 @@
 class Track < ApplicationRecord
   has_many :platform_tracks, dependent: :destroy
 
-  validates :isrc, presence: true, uniqueness: true
+  validates :isrc, uniqueness: true, allow_blank: true
   validates :title, :artist, presence: true
 
 

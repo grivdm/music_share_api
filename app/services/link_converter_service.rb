@@ -3,7 +3,8 @@ class LinkConverterService
 
   PLATFORM_SERVICES = {
     spotify: SpotifyService,
-    deezer: DeezerService
+    deezer: DeezerService,
+    youtube_music: YoutubeMusicService
   }.freeze
 
   attr_reader :services
@@ -84,12 +85,26 @@ class LinkConverterService
       :spotify
     elsif url.to_s.include?("deezer.com") || url.to_s.include?("dzr.page.link")
       :deezer
+    elsif url.to_s.include?("youtube.com") || url.to_s.include?("youtu.be")
+      :youtube_music
     else
       nil
     end
   end
 
   def find_or_create_track(track_info)
+    # Safety check for nil track_info
+    if track_info.nil?
+      Rails.logger.error "Track info is nil in find_or_create_track"
+      raise Error, "Failed to retrieve track information"
+    end
+
+    # Safety checks for required fields
+    unless track_info[:title].present? && track_info[:artist].present?
+      Rails.logger.error "Missing required track info fields: #{track_info.inspect}"
+      raise Error, "Missing required track information (title and artist)"
+    end
+
     track = Track.find_by(isrc: track_info[:isrc]) if track_info[:isrc].present?
 
     if track.nil?
