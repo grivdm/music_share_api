@@ -2,8 +2,26 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::ConversionsController, type: :controller do
   describe "POST #create" do
-    context "with valid url parameter", vcr: { cassette_name: 'controller/valid_conversion' } do
+    context "with valid url parameter" do
       let(:valid_params) { { url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT" } }
+      let(:track_data) {
+        {
+          track: {
+            title: "Never Gonna Give You Up",
+            artist: "Rick Astley",
+            album: "Whenever You Need Somebody",
+            isrc: "GBARL0700477"
+          },
+          links: {
+            spotify: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
+            deezer: "https://www.deezer.com/track/3135556"
+          }
+        }
+      }
+
+      before do
+        allow_any_instance_of(LinkConverterService).to receive(:convert_url).and_return(track_data)
+      end
 
       it "returns a successful response" do
         post :create, params: valid_params

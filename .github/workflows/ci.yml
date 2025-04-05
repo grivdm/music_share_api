@@ -75,4 +75,5 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: bundle exec rspec --format documentation

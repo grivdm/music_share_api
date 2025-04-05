@@ -1,7 +1,7 @@
 class ConversionRequest < ApplicationRecord
   validates :source_platform, :source_url, presence: true
 
-  PLATFORMS = %w[spotify deezer].freeze
+  PLATFORMS = %w[spotify deezer youtube_music].freeze
   validates :source_platform, inclusion: { in: PLATFORMS }
 
   before_validation :set_default_platform

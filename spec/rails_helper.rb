@@ -46,6 +46,19 @@ RSpec.configure do |config|
   # Include FactoryBot methods
   config.include FactoryBot::Syntax::Methods
 
+  # Configure environment variables for testing
+  config.before(:each) do
+    # Set default environment variables for testing
+    allow(ENV).to receive(:[]).and_call_original
+
+    # Mocked API keys for services
+    allow(ENV).to receive(:[]).with('SPOTIFY_CLIENT_ID').and_return('test_spotify_id')
+    allow(ENV).to receive(:[]).with('SPOTIFY_CLIENT_SECRET').and_return('test_spotify_secret')
+    allow(ENV).to receive(:[]).with('YOUTUBE_API_KEY').and_return('test_youtube_key')
+    allow(ENV).to receive(:[]).with('DEEZER_APP_ID').and_return('test_deezer_id')
+    allow(ENV).to receive(:[]).with('DEEZER_SECRET_KEY').and_return('test_deezer_secret')
+  end
+
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
