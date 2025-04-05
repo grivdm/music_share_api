@@ -32,9 +32,9 @@ RSpec.describe SpotifyService do
         platform_id: "4cOdK2wGLETKBW3PvgPWqT",
         url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"
       }
-      
+
       allow(service).to receive(:get_track_by_id).with("4cOdK2wGLETKBW3PvgPWqT").and_return(expected_result)
-      
+
       track_info = service.get_track_by_id("4cOdK2wGLETKBW3PvgPWqT")
 
       expect(track_info).to include(
@@ -59,9 +59,9 @@ RSpec.describe SpotifyService do
         url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
         platform: :spotify
       }
-      
+
       allow(service).to receive(:search_track_by_isrc).with("GBARL0700477").and_return(expected_result)
-      
+
       track_info = service.search_track_by_isrc("GBARL0700477")
 
       expect(track_info).to include(

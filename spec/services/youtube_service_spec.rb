@@ -80,10 +80,10 @@ RSpec.describe YoutubeMusicService do
         artist: "Rick Astley",
         url: "https://music.youtube.com/watch?v=dQw4w9WgXcQ"
       }
-      
+
       # Don't include all the intermediate mocking, just stub the final method
       allow(service).to receive(:get_track_by_id).and_return(expected_result)
-      
+
       # Call the method we've mocked
       track_info = service.get_track_by_id("dQw4w9WgXcQ")
 
@@ -106,7 +106,7 @@ RSpec.describe YoutubeMusicService do
         artist: "Rick Astley",
         url: "https://music.youtube.com/watch?v=dQw4w9WgXcQ"
       })
-      
+
       track_info = service.search_track("Rick Astley", "Never Gonna Give You Up")
 
       expect(track_info).to include(
