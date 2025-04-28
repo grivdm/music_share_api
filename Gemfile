@@ -51,7 +51,7 @@ group :development, :test do
   gem "rspec-rails", "~> 7.1"
   gem "factory_bot_rails", "~> 6.2"
   gem "faker", "~> 3.2"
-  gem "shoulda-matchers", "~> 6.4"
+  gem "shoulda-matchers", "~> 6.5"
   gem "webmock", "~> 3.18"
   gem "vcr", "~> 6.1"
   gem "pry-rails", "~> 0.3"
