@@ -350,7 +350,7 @@ GEM
     solargraph-rails (1.1.0)
       activesupport
       solargraph
-    solid_cable (3.0.7)
+    solid_cable (3.0.8)
       actioncable (>= 7.2)
       activejob (>= 7.2)
       activerecord (>= 7.2)
