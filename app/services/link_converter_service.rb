@@ -31,6 +31,15 @@ class LinkConverterService
       )
       Rails.logger.debug "Created conversion request: #{conversion_request.id}"
 
+      # First, check if track exists in database
+      db_track = find_track_in_database(url, source_platform)
+      if db_track
+        Rails.logger.debug "Found track in database: #{db_track.id}"
+        conversion_request.update!(successful: true)
+        return build_response_from_database(db_track)
+      end
+
+      Rails.logger.debug "Track not found in database, fetching from external services"
       source_service = @services[source_platform]
       Rails.logger.debug "Using service for #{source_platform}: #{source_service.class}"
 
@@ -43,7 +52,19 @@ class LinkConverterService
         raise
       end
 
-      # First, search all platforms and collect links
+      # Check database again by ISRC if available
+      if track_info[:isrc].present?
+        db_track = Track.find_by(isrc: track_info[:isrc])
+        if db_track
+          Rails.logger.debug "Found track by ISRC in database: #{db_track.id}"
+          # Update with any missing platform links
+          update_track_with_missing_platform(db_track, source_platform, url, track_info)
+          conversion_request.update!(successful: true)
+          return build_response_from_database(db_track)
+        end
+      end
+
+      # Track not in database, search all platforms and collect links
       links = { track_info[:platform] => track_info[:url] }
 
       Rails.logger.debug "Searching track links in other platforms"
@@ -79,7 +100,7 @@ class LinkConverterService
       Rails.logger.debug "Updated conversion request status"
 
       # Return result immediately
-      result = format_result_without_db(track_info, links)
+      result = build_response_from_api_data(track_info, links)
 
       # Save to database asynchronously if track has ISRC
       if track_info[:isrc].present?
@@ -99,6 +120,47 @@ class LinkConverterService
 
   private
 
+  def find_track_in_database(url, platform)
+    platform_id = extract_platform_id_from_url(platform, url)
+    return nil unless platform_id
+
+    platform_track = PlatformTrack.find_by(platform: platform, platform_id: platform_id)
+    platform_track&.track
+  end
+
+  def build_response_from_database(track)
+    links = {}
+    track.platform_tracks.each do |pt|
+      links[pt.platform] = pt.url
+    end
+
+    {
+      track: {
+        title: track.title,
+        artist: track.artist,
+        album: track.album,
+        isrc: track.isrc
+      },
+      links: links
+    }
+  end
+
+  def update_track_with_missing_platform(track, platform, url, track_info)
+    platform_id = extract_platform_id_from_url(platform, url)
+    return unless platform_id
+
+    platform_track = track.platform_tracks.find_or_initialize_by(platform: platform)
+    if platform_track.new_record?
+      platform_track.update!(
+        platform_id: platform_id,
+        url: url
+      )
+      Rails.logger.debug "Added missing platform link: #{platform}"
+    end
+  rescue => e
+    Rails.logger.error "Error saving missing platform link: #{e.class} - #{e.message}"
+  end
+
   def detect_platform(url)
     if url.to_s.include?("spotify.com")
       :spotify
@@ -112,7 +174,7 @@ class LinkConverterService
   end
 
 
-  def format_result_without_db(track_info, links)
+  def build_response_from_api_data(track_info, links)
     {
       track: {
         title: track_info[:title],
