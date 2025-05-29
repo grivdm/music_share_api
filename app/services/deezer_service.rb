@@ -1,4 +1,5 @@
 class DeezerService < MusicPlatformService
+  include ApiErrorHandling
   BASE_API_URL = "https://api.deezer.com".freeze
   PLATFORM = :deezer
 
@@ -133,12 +134,6 @@ class DeezerService < MusicPlatformService
   end
 
   def handle_error(response)
-    error_message = if response.parsed_response.is_a?(Hash) && response.parsed_response["error"]
-      response.parsed_response["error"]
-    else
-      response.message
-    end
-
-    Rails.logger.error "Deezer API Error: #{response.code} #{error_message}"
+    handle_api_error(response, "Deezer")
   end
 end
