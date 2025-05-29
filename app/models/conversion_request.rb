@@ -1,8 +1,8 @@
 class ConversionRequest < ApplicationRecord
-  validates :source_platform, :source_url, presence: true
+  PLATFORMS = PlatformTrack::PLATFORMS
 
-  PLATFORMS = %w[spotify deezer youtube_music].freeze
-  validates :source_platform, inclusion: { in: PLATFORMS }
+  validates :source_platform, presence: true, inclusion: { in: PLATFORMS }
+  validates :source_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp }
 
   before_validation :set_default_platform
 
@@ -11,7 +11,4 @@ class ConversionRequest < ApplicationRecord
   def set_default_platform
     self.source_platform ||= "spotify"
   end
-
-  scope :successful, -> { where(successful: true) }
-  scope :failed, -> { where(successful: false) }
 end
