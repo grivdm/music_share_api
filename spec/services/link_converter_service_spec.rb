@@ -42,7 +42,7 @@ RSpec.describe LinkConverterService do
     let(:track_title) { "Never Gonna Give You Up" }
     let(:track_artist) { "Rick Astley" }
     let(:track_album) { "Whenever You Need Somebody" }
-    
+
     let(:track_data) do
       {
         isrc: isrc,
@@ -54,7 +54,7 @@ RSpec.describe LinkConverterService do
         platform: :spotify
       }
     end
-    
+
     let(:deezer_data) do
       {
         isrc: isrc,
@@ -89,7 +89,7 @@ RSpec.describe LinkConverterService do
 
       it "converts spotify url to all available platforms" do
         output = service.convert_url(spotify_url)
-        
+
         expect(output[:track]).to include(
           title: track_title,
           artist: track_artist
@@ -164,7 +164,7 @@ RSpec.describe LinkConverterService do
 
       it "converts YouTube Music url to other platforms" do
         output = service.convert_url(youtube_music_url)
-        
+
         expect(output[:track]).to include(
           title: "Never Gonna Give You Up",
           artist: "Rick Astley"
