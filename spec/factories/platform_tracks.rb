@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :platform_track do
     association :track
     platform { "spotify" }
-    platform_id { "spotify_track_id" }
-    url { "https://open.spotify.com/track/spotify_track_id" }
+    sequence(:platform_id) { |n| "spotify_track_id_#{n}" }
+    sequence(:url) { |n| "https://open.spotify.com/track/spotify_track_id_#{n}" }
 
     trait :spotify do
       platform { "spotify" }

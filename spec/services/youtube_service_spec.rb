@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe YoutubeMusicService do
-  let(:service) { YoutubeMusicService.new }
+  let(:service) { described_class.new }
 
   describe "#parse_track_url" do
     it "extracts video id from YouTube Music URL" do
@@ -72,22 +72,23 @@ RSpec.describe YoutubeMusicService do
   end
 
   describe "#get_track_by_id" do
-    it "fetches track information from YouTube API" do
-      # Just simplify with a direct stub - no mocking of API calls
-      expected_result = {
+    let(:video_id) { "dQw4w9WgXcQ" }
+    let(:expected_track_data) do
+      {
         platform: :youtube_music,
         title: "Never Gonna Give You Up",
         artist: "Rick Astley",
-        url: "https://music.youtube.com/watch?v=dQw4w9WgXcQ"
+        url: "https://music.youtube.com/watch?v=#{video_id}"
       }
+    end
 
-      # Don't include all the intermediate mocking, just stub the final method
-      allow(service).to receive(:get_track_by_id).and_return(expected_result)
+    before do
+      allow(service).to receive(:get_track_by_id).with(video_id).and_return(expected_track_data)
+    end
 
-      # Call the method we've mocked
-      track_info = service.get_track_by_id("dQw4w9WgXcQ")
+    it "fetches track information from YouTube API" do
+      track_info = service.get_track_by_id(video_id)
 
-      # Verify the result
       expect(track_info).to include(
         platform: :youtube_music,
         title: "Never Gonna Give You Up",
@@ -98,22 +99,29 @@ RSpec.describe YoutubeMusicService do
   end
 
   describe "#search_track" do
-    it "finds a track by artist and title" do
-      # Directly stub the service method for simplicity
-      allow(service).to receive(:search_track).with("Rick Astley", "Never Gonna Give You Up").and_return({
+    let(:artist) { "Rick Astley" }
+    let(:title) { "Never Gonna Give You Up" }
+    let(:expected_track_data) do
+      {
         platform: :youtube_music,
-        title: "Never Gonna Give You Up",
-        artist: "Rick Astley",
+        title: title,
+        artist: artist,
         url: "https://music.youtube.com/watch?v=dQw4w9WgXcQ"
-      })
+      }
+    end
 
-      track_info = service.search_track("Rick Astley", "Never Gonna Give You Up")
+    before do
+      allow(service).to receive(:search_track).with(artist, title).and_return(expected_track_data)
+    end
+
+    it "finds a track by artist and title" do
+      track_info = service.search_track(artist, title)
 
       expect(track_info).to include(
         platform: :youtube_music,
-        title: "Never Gonna Give You Up"
+        title: title
       )
-      expect(track_info[:artist]).to include("Rick Astley")
+      expect(track_info[:artist]).to include(artist)
     end
   end
 end

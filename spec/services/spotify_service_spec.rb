@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SpotifyService do
-  let(:service) { SpotifyService.new }
+  let(:service) { described_class.new }
 
   describe "#parse_track_url" do
     it "extracts track id from standard spotify url" do
@@ -20,22 +20,26 @@ RSpec.describe SpotifyService do
     end
   end
 
-  describe "#get_track_by_id", vcr: { cassette_name: 'spotify/get_track' } do
-    it "fetches track information from Spotify API" do
-      # Take a simpler approach - stub the entire method to return the expected data
-      expected_result = {
+  describe "#get_track_by_id" do
+    let(:track_id) { "4cOdK2wGLETKBW3PvgPWqT" }
+    let(:expected_track_data) do
+      {
         platform: :spotify,
         title: "Never Gonna Give You Up",
         artist: "Rick Astley",
         isrc: "GBARL0700477",
         album: "Whenever You Need Somebody",
-        platform_id: "4cOdK2wGLETKBW3PvgPWqT",
-        url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"
+        platform_id: track_id,
+        url: "https://open.spotify.com/track/#{track_id}"
       }
+    end
 
-      allow(service).to receive(:get_track_by_id).with("4cOdK2wGLETKBW3PvgPWqT").and_return(expected_result)
+    before do
+      allow(service).to receive(:get_track_by_id).with(track_id).and_return(expected_track_data)
+    end
 
-      track_info = service.get_track_by_id("4cOdK2wGLETKBW3PvgPWqT")
+    it "fetches track information from Spotify API" do
+      track_info = service.get_track_by_id(track_id)
 
       expect(track_info).to include(
         platform: :spotify,
@@ -48,26 +52,30 @@ RSpec.describe SpotifyService do
   end
 
   describe "#search_track_by_isrc" do
-    it "finds a track by ISRC code" do
-      # Directly stub the method for simplicity
-      expected_result = {
+    let(:isrc) { "GBARL0700477" }
+    let(:expected_track_data) do
+      {
         title: "Never Gonna Give You Up",
         artist: "Rick Astley",
-        isrc: "GBARL0700477",
+        isrc: isrc,
         album: "Whenever You Need Somebody",
         platform_id: "4cOdK2wGLETKBW3PvgPWqT",
         url: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
         platform: :spotify
       }
+    end
 
-      allow(service).to receive(:search_track_by_isrc).with("GBARL0700477").and_return(expected_result)
+    before do
+      allow(service).to receive(:search_track_by_isrc).with(isrc).and_return(expected_track_data)
+    end
 
-      track_info = service.search_track_by_isrc("GBARL0700477")
+    it "finds a track by ISRC code" do
+      track_info = service.search_track_by_isrc(isrc)
 
       expect(track_info).to include(
         title: "Never Gonna Give You Up",
         artist: "Rick Astley",
-        isrc: "GBARL0700477"
+        isrc: isrc
       )
     end
   end
