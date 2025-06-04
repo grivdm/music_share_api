@@ -41,9 +41,3 @@ cp .env.example .env  # Configure API keys
 rails db:setup && rails server
 ```
 
-## Testing
-```bash
-bundle exec rspec
-bundle exec rubocop
-```
-
