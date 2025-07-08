@@ -1,24 +1,43 @@
-# README
+# Music Share API 🎵
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Ruby](https://img.shields.io/badge/Ruby-3.2-red.svg)](https://www.ruby-lang.org/)
+[![Rails](https://img.shields.io/badge/Rails-8.0-red.svg)](https://rubyonrails.org/)
+[![CI](https://github.com/grivdm/music_share_api/actions/workflows/ci.yml/badge.svg)](https://github.com/grivdm/music_share_api/actions/workflows/ci.yml)
 
-Things you may want to cover:
 
-* Ruby version
 
-* System dependencies
+REST API for music link conversion between streaming platforms.
 
-* Configuration
 
-* Database creation
+## Features
+-  Convert between Spotify, Deezer, YouTube Music
+-  Docker & Kamal deployment
+-  PostgreSQL caching
 
-* Database initialization
+## Platforms
+| Platform | Status | ISRC Search |
+|----------|--------|-------------|
+| Spotify | ✅ | ✅ |
+| Deezer | ✅ | ✅ |
+| YouTube Music | ✅ | ❌ |
 
-* How to run the test suite
+## Usage
+```http
+POST /api/v1/convert
+{"url": "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"}
 
-* Services (job queues, cache servers, search engines, etc.)
+Response:
+{
+  "track": {"title": "Song", "artist": "Artist"},
+  "links": {"spotify": "...", "deezer": "..."}
+}
+```
 
-* Deployment instructions
+## Development
+```bash
+git clone repo && cd music_share_api
+bundle install
+cp .env.example .env  # Configure API keys
+rails db:setup && rails server
+```
 
-* ...
