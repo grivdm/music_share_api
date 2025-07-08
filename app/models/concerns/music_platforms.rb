@@ -15,7 +15,7 @@ module MusicPlatforms
 
   PLATFORM_DOMAINS = {
     spotify: [ "spotify.com" ],
-    deezer: [ "deezer.com", "dzr.page.link" ],
+    deezer: [ "deezer.com", "dzr.page.link", "link.deezer.com" ],
     youtube_music: [ "youtube.com", "youtu.be" ]
   }.freeze
 end

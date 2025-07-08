@@ -67,8 +67,9 @@ class DeezerService < MusicPlatformService
 
     # https://www.deezer.com/track/{id}
     # or https://www.deezer.com/en/track/{id}
-    match = url.to_s.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
-    return match[1] if match
+    # or https://link.deezer.com/track/{id}
+    match = url.to_s.match(/(deezer\.com|link\.deezer\.com)\/(?:\w+\/)?track\/(\d+)/)
+    return match[2] if match
 
     # Short URL format: https://dzr.page.link/{random_id}
     if url.to_s.include?("dzr.page.link")
