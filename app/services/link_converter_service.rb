@@ -35,7 +35,6 @@ class LinkConverterService
       return build_response_from_database(db_track)
     end
 
-
     # Search other platforms
     links = collect_platform_links(track_info)
 
@@ -205,7 +204,6 @@ class LinkConverterService
       links: links.transform_keys(&:to_s)
     }
   end
-
 
   def save_track_to_database(track_info, links)
     begin
