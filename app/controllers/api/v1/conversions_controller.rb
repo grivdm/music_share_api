@@ -2,26 +2,28 @@ module Api
   module V1
     class ConversionsController < ApplicationController
       def create
-        Rails.logger.debug "Received params: #{params.inspect}"
-        url = params[:url] || params.dig(:conversion, :url)
-        Rails.logger.debug "Extracted URL: #{url}"
-        unless url.present?
-          render json: { error: "URL parameter is required" }, status: :bad_request
-          return
-        end
+        url = extract_url_param
+        return render_error("URL parameter is required", :bad_request) unless url.present?
 
-        converter = LinkConverterService.new
-        begin
-          result = converter.convert_url(url)
-          render json: result, status: :ok
-        rescue LinkConverterService::Error => e
-          Rails.logger.error "Conversion error in controller: #{e.message}"
-          render json: { error: e.message }, status: :unprocessable_entity
-        rescue StandardError => e
-          Rails.logger.error "Unexpected error in controller: #{e.message}"
-          Rails.logger.error e.backtrace.join("\n")
-          render json: { error: "An unexpected error occurred" }, status: :internal_server_error
-        end
+        result = LinkConverterService.new.convert_url(url)
+        render json: result, status: :ok
+      rescue LinkConverterService::Error => e
+        Rails.logger.error "Conversion error: #{e.message}"
+        render_error(e.message, :unprocessable_entity)
+      rescue StandardError => e
+        Rails.logger.error "Unexpected error: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        render_error("An unexpected error occurred", :internal_server_error)
+      end
+
+      private
+
+      def extract_url_param
+        params[:url] || params.dig(:conversion, :url)
+      end
+
+      def render_error(message, status)
+        render json: { error: message }, status: status
       end
     end
   end

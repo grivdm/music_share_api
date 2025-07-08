@@ -1,4 +1,5 @@
 class YoutubeMusicService < MusicPlatformService
+  include ApiErrorHandling
   BASE_API_URL = "https://www.googleapis.com/youtube/v3".freeze
   PLATFORM = :youtube_music
 
@@ -234,17 +235,6 @@ class YoutubeMusicService < MusicPlatformService
   end
 
   def handle_error(response)
-    error_message = if response.parsed_response.is_a?(Hash) && response.parsed_response["error"]
-      if response.parsed_response["error"].is_a?(Hash)
-        "#{response.parsed_response['error']['code']} - #{response.parsed_response['error']['message']}"
-      else
-        response.parsed_response["error"]
-      end
-    else
-      response.message
-    end
-
-    Rails.logger.error "YouTube Music API Error: #{response.code} #{error_message}"
-    Rails.logger.error "Response body: #{response.body}" if response.body.present?
+    handle_api_error(response, "YouTube Music")
   end
 end

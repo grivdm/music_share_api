@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :track do
-    isrc { "US7VG1234567" }
-    title { "Test Track" }
+    sequence(:isrc) { |n| "US7VG#{n.to_s.rjust(7, '0')}" }
+    sequence(:title) { |n| "Test Track #{n}" }
     artist { "Test Artist" }
     album { "Test Album" }
     duration { 180 }

@@ -1,4 +1,5 @@
 class SpotifyService < MusicPlatformService
+  include ApiErrorHandling
   BASE_API_URL = "https://api.spotify.com/v1".freeze
   AUTH_URL = "https://accounts.spotify.com/api/token".freeze
   PLATFORM = :spotify
@@ -122,20 +123,6 @@ class SpotifyService < MusicPlatformService
   end
 
   def handle_error(response)
-    begin
-      error_message = if response.parsed_response.is_a?(Hash) && response.parsed_response["error"]
-        response.parsed_response["error"].is_a?(Hash) ? response.parsed_response["error"]["message"] : response.parsed_response["error"]
-      else
-        response.message
-      end
-
-      Rails.logger.error "Spotify API Error: #{response.code} #{error_message}"
-      Rails.logger.error "Response body: #{response.body}" if response.body.present?
-
-      raise Error, "Spotify API Error: #{response.code} #{error_message}" if response.code >= 500
-    rescue => e
-      Rails.logger.error "Error handling Spotify error response: #{e.message}"
-      Rails.logger.error "Original response code: #{response}"
-    end
+    handle_api_error(response, "Spotify")
   end
 end
