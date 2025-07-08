@@ -34,7 +34,7 @@ gem "httparty", "~> 0.23"
 gem "redis", "~> 5.0"
 gem "sidekiq", "~> 8.0"
 gem "rack-cors", "~> 3.0"
-gem "oj", "~> 3.15"
+gem "oj", "~> 3.16"
 gem "text", "~> 1.3", ">= 1.3.1"
 
 
@@ -49,7 +49,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails", "~> 8.0"
-  gem "factory_bot_rails", "~> 6.2"
+  gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.2"
   gem "shoulda-matchers", "~> 6.5"
   gem "webmock", "~> 3.18"
