@@ -76,11 +76,15 @@ class DeezerService < MusicPlatformService
       max_redirects = 5
       max_redirects.times do
         response = HTTParty.head(current_url, follow_redirects: false)
-        location = response.headers["location"]
-        if location.present?
-          match = location.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
-          return match[1] if match
-          current_url = location
+        if response.code.between?(300, 399)
+          location = response.headers["location"]
+          if location.present?
+            match = location.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
+            return match[1] if match
+            current_url = location
+          else
+            break
+          end
         else
           break
         end
