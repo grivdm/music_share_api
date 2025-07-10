@@ -67,12 +67,11 @@ class DeezerService < MusicPlatformService
 
     # https://www.deezer.com/track/{id}
     # or https://www.deezer.com/en/track/{id}
-    # or https://link.deezer.com/track/{id}
-    match = url.to_s.match(/(link\.deezer\.com|deezer\.com)\/(?:\w+\/)?track\/(\d+)/)
-    return match[2] if match
+    match = url.to_s.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
+    return match[1] if match
 
-    # Short URL format: https://dzr.page.link/{random_id}
-    if url.to_s.include?("dzr.page.link")
+    # Short URL format: https://dzr.page.link/{random_id} or https://link.deezer.com/s/...
+    if url.to_s.include?("dzr.page.link") || url.to_s.include?("link.deezer.com/")
       response = HTTParty.head(url.to_s, follow_redirects: false)
       if response.code == 302 && response.headers["location"].present?
         redirect_url = response.headers["location"]
