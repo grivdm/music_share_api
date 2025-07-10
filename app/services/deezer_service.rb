@@ -75,7 +75,7 @@ class DeezerService < MusicPlatformService
       current_url = url.to_s
       max_redirects = 5
       max_redirects.times do
-        response = HTTParty.head(current_url, follow_redirects: false)
+        response = HTTParty.get(current_url, follow_redirects: false)
         if response.code.between?(300, 399)
           location = response.headers["location"]
           if location.present?
