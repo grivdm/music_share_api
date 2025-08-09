@@ -31,7 +31,7 @@ gem "thruster", require: false
 
 gem "dotenv-rails", "~> 3.1"
 gem "httparty", "~> 0.23"
-gem "redis", "~> 5.0"
+gem "redis", "~> 5.4"
 gem "sidekiq", "~> 8.0"
 gem "rack-cors", "~> 3.0"
 gem "oj", "~> 3.16"
