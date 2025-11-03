@@ -52,7 +52,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.5"
   gem "shoulda-matchers", "~> 6.5"
-  gem "webmock", "~> 3.18"
+  gem "webmock", "~> 3.26"
   gem "vcr", "~> 6.1"
   gem "pry-rails", "~> 0.3"
   gem "solargraph"
