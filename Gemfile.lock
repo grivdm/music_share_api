@@ -297,7 +297,6 @@ GEM
       rspec-expectations (~> 3.13)
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
-    rubocop (1.80.2)
     rspec-support (3.13.5)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -309,6 +308,7 @@ GEM
       rubocop-ast (>= 1.46.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
+    rubocop (1.80.2)
     rubocop-ast (1.47.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
@@ -328,8 +328,8 @@ GEM
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
-    shoulda-matchers (6.5.0)
-      activesupport (>= 5.2.0)
+    shoulda-matchers (7.0.1)
+      activesupport (>= 7.1)
     sidekiq (8.0.8)
       connection_pool (>= 2.5.0)
       json (>= 2.9.0)
@@ -397,7 +397,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.0.4)
+    uri (1.1.0)
     useragent (0.16.11)
     vcr (6.3.1)
       base64
@@ -439,7 +439,7 @@ DEPENDENCIES
   redis (~> 5.4)
   rspec-rails (~> 8.0)
   rubocop-rails-omakase
-  shoulda-matchers (~> 6.5)
+  shoulda-matchers (~> 7.0)
   sidekiq (~> 8.0)
   solargraph
   solargraph-rails
