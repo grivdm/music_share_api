@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.1.0"
+gem "rails", "~> 8.1.1"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.6"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -52,7 +52,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.5"
   gem "shoulda-matchers", "~> 6.5"
-  gem "webmock", "~> 3.18"
+  gem "webmock", "~> 3.26"
   gem "vcr", "~> 6.1"
   gem "pry-rails", "~> 0.3"
   gem "solargraph"
