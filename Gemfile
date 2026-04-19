@@ -1,9 +1,9 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.1.1"
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.6"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -31,7 +31,7 @@ gem "thruster", require: false
 
 gem "dotenv-rails", "~> 3.1"
 gem "httparty", "~> 0.23"
-gem "redis", "~> 5.0"
+gem "redis", "~> 5.4"
 gem "sidekiq", "~> 8.0"
 gem "rack-cors", "~> 3.0"
 gem "oj", "~> 3.16"
@@ -50,9 +50,9 @@ group :development, :test do
 
   gem "rspec-rails", "~> 8.0"
   gem "factory_bot_rails", "~> 6.5"
-  gem "faker", "~> 3.2"
+  gem "faker", "~> 3.5"
   gem "shoulda-matchers", "~> 6.5"
-  gem "webmock", "~> 3.18"
+  gem "webmock", "~> 3.26"
   gem "vcr", "~> 6.1"
   gem "pry-rails", "~> 0.3"
   gem "solargraph"
