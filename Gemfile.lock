@@ -168,7 +168,7 @@ GEM
     marcel (1.1.0)
     method_source (1.1.0)
     mini_mime (1.1.5)
-    minitest (5.26.0)
+    minitest (5.26.1)
     msgpack (1.8.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
@@ -276,7 +276,7 @@ GEM
     redis-client (0.26.1)
       connection_pool
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     reverse_markdown (3.0.0)
       nokogiri
@@ -365,7 +365,7 @@ GEM
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
-    solid_cache (1.0.7)
+    solid_cache (1.0.10)
       activejob (>= 7.2)
       activerecord (>= 7.2)
       railties (>= 7.2)
