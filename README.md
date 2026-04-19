@@ -1,7 +1,7 @@
 # Music Share API 🎵
 
-[![Ruby](https://img.shields.io/badge/Ruby-3.2-red.svg)](https://www.ruby-lang.org/)
-[![Rails](https://img.shields.io/badge/Rails-8.0-red.svg)](https://rubyonrails.org/)
+[![Ruby](https://img.shields.io/badge/Ruby-3.4-red.svg)](https://www.ruby-lang.org/)
+[![Rails](https://img.shields.io/badge/Rails-8.1-red.svg)](https://rubyonrails.org/)
 [![CI](https://github.com/grivdm/music_share_api/actions/workflows/ci.yml/badge.svg)](https://github.com/grivdm/music_share_api/actions/workflows/ci.yml)
 
 
