@@ -9,6 +9,22 @@ fi
 # If running the rails server then create or migrate existing database
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
   ./bin/rails db:prepare
+
+  # Ensure Solid Queue/Cache/Cable schemas exist.
+  # In a multi-db setup where queue/cache/cable point to the same physical DB
+  # as primary, `db:prepare` skips loading their schemas after the primary DB
+  # is already created. Load them idempotently here (no-op if tables exist).
+  ./bin/rails runner '
+    [
+      ["solid_queue_jobs",     "db/queue_schema.rb"],
+      ["solid_cache_entries",  "db/cache_schema.rb"],
+      ["solid_cable_messages", "db/cable_schema.rb"]
+    ].each do |table, schema|
+      next if ActiveRecord::Base.connection.table_exists?(table)
+      Rails.logger.info "[entrypoint] loading #{schema}"
+      load Rails.root.join(schema).to_s
+    end
+  '
 fi
 
 exec "${@}"
