@@ -77,8 +77,8 @@ RSpec.describe LinkConverterService do
             isrc: isrc
           },
           links: {
-            spotify: spotify_url,
-            deezer: "https://www.deezer.com/track/3135556"
+            "spotify" => spotify_url,
+            "deezer" => "https://www.deezer.com/track/3135556"
           }
         }
       end
@@ -94,7 +94,7 @@ RSpec.describe LinkConverterService do
           title: track_title,
           artist: track_artist
         )
-        expect(output[:links]).to include(:spotify, :deezer)
+        expect(output[:links].keys).to include("spotify", "deezer")
       end
     end
 
@@ -150,9 +150,9 @@ RSpec.describe LinkConverterService do
           isrc: nil
         },
         links: {
-          youtube_music: youtube_music_url,
-          spotify: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
-          deezer: "https://www.deezer.com/track/3135556"
+          "youtube_music" => youtube_music_url,
+          "spotify" => "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
+          "deezer" => "https://www.deezer.com/track/3135556"
         }
       }
     end
@@ -169,7 +169,7 @@ RSpec.describe LinkConverterService do
           title: "Never Gonna Give You Up",
           artist: "Rick Astley"
         )
-        expect(output[:links]).to include(:youtube_music, :spotify, :deezer)
+        expect(output[:links].keys).to include("youtube_music", "spotify", "deezer")
       end
     end
 

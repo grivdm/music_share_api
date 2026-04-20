@@ -5,18 +5,18 @@ class MusicPlatformService
     configure(*args)
   end
 
-  private
-
-  def configure(*args)
-    raise NotImplementedError, "Subclasses must implement #configure"
-  end
-
   def parse_track_url(url)
     raise NotImplementedError, "Subclasses must implement #parse_track_url"
   end
 
   def get_track_by_id(id)
     raise NotImplementedError, "Subclasses must implement #get_track_by_id"
+  end
+
+  private
+
+  def configure(*args)
+    raise NotImplementedError, "Subclasses must implement #configure"
   end
 
   def search_track_by_isrc(isrc)

@@ -12,8 +12,8 @@ RSpec.describe "Api::V1::Conversions", type: :request do
           isrc: "GBARL0700477"
         },
         links: {
-          spotify: "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
-          deezer: "https://www.deezer.com/track/3135556"
+          "spotify" => "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT",
+          "deezer" => "https://www.deezer.com/track/3135556"
         }
       }
     }

@@ -15,7 +15,8 @@ RSpec.describe Track, type: :model do
     describe "ISRC validation" do
       subject { create(:track) }
 
-      it { should validate_uniqueness_of(:isrc).allow_blank }
+      it { should validate_presence_of(:isrc) }
+      it { should validate_uniqueness_of(:isrc) }
 
       it "validates ISRC format" do
         track.isrc = "INVALID"
@@ -28,9 +29,10 @@ RSpec.describe Track, type: :model do
         expect(track).to be_valid
       end
 
-      it "allows blank ISRC" do
+      it "rejects blank ISRC" do
         track.isrc = nil
-        expect(track).to be_valid
+        expect(track).not_to be_valid
+        expect(track.errors[:isrc]).to include("can't be blank")
       end
     end
 
