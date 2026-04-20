@@ -34,7 +34,7 @@ gem "httparty", "~> 0.23"
 gem "redis", "~> 5.4"
 gem "sidekiq", "~> 8.0"
 gem "rack-cors", "~> 3.0"
-gem "oj", "~> 3.16"
+gem "oj", "~> 3.17"
 gem "text", "~> 1.3", ">= 1.3.1"
 
 
