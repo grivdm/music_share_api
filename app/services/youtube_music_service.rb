@@ -9,6 +9,27 @@ class YoutubeMusicService < MusicPlatformService
     get_track_by_id(video_id)
   end
 
+  def parse_track_url(url)
+    return nil unless url.present?
+    url_string = url.to_s
+
+    # YouTube Music / standard YouTube watch URL with `v` parameter
+    # https://music.youtube.com/watch?v={video_id}
+    # https://www.youtube.com/watch?v={video_id}&list=...
+    # https://music.youtube.com/watch?list=...&v={video_id}
+    if url_string.match?(%r{(?:music\.)?youtube\.com/watch})
+      v_match = url_string.match(/[?&]v=([a-zA-Z0-9_-]+)/)
+      return v_match[1] if v_match
+    end
+
+    # YouTube Short URL format:
+    # https://youtu.be/{video_id}
+    short_match = url_string.match(%r{youtu\.be/([a-zA-Z0-9_-]+)})
+    return short_match[1] if short_match
+
+    nil
+  end
+
   def get_track_by_id(id)
     return nil unless id.present?
 
@@ -102,27 +123,6 @@ class YoutubeMusicService < MusicPlatformService
   def configure(*args)
     # No additional configuration needed beyond the API key
     # which will be pulled from the environment
-  end
-
-  def parse_track_url(url)
-    return nil unless url.present?
-
-    # Standard YouTube Music URL format:
-    # https://music.youtube.com/watch?v={video_id}
-    music_match = url.to_s.match(%r{music\.youtube\.com/watch\?v=([a-zA-Z0-9_-]+)})
-    return music_match[1] if music_match
-
-    # Standard YouTube URL format that might be a music video:
-    # https://www.youtube.com/watch?v={video_id}
-    youtube_match = url.to_s.match(%r{youtube\.com/watch\?v=([a-zA-Z0-9_-]+)})
-    return youtube_match[1] if youtube_match
-
-    # YouTube Short URL format:
-    # https://youtu.be/{video_id}
-    short_match = url.to_s.match(%r{youtu\.be/([a-zA-Z0-9_-]+)})
-    return short_match[1] if short_match
-
-    nil
   end
 
   def parse_track_data(data)

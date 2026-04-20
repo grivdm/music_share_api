@@ -9,6 +9,38 @@ class DeezerService < MusicPlatformService
     get_track_by_id(track_id)
   end
 
+  def parse_track_url(url)
+    return nil unless url.present?
+
+    # https://www.deezer.com/track/{id}
+    # or https://www.deezer.com/en/track/{id}
+    match = url.to_s.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
+    return match[1] if match
+
+    # Short URL format: https://dzr.page.link/{random_id} or https://link.deezer.com/s/...
+    if url.to_s.include?("dzr.page.link") || url.to_s.include?("link.deezer.com/")
+      current_url = url.to_s
+      max_redirects = 5
+      max_redirects.times do
+        response = HTTParty.get(current_url, follow_redirects: false)
+        if response.code.between?(300, 399)
+          location = response.headers["location"]
+          if location.present?
+            match = location.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
+            return match[1] if match
+            current_url = location
+          else
+            break
+          end
+        else
+          break
+        end
+      end
+    end
+
+    nil
+  end
+
   def get_track_by_id(id)
     response = HTTParty.get("#{BASE_API_URL}/track/#{id}")
 
@@ -60,38 +92,6 @@ class DeezerService < MusicPlatformService
   private
 
   def configure(*args)
-  end
-
-  def parse_track_url(url)
-    return nil unless url.present?
-
-    # https://www.deezer.com/track/{id}
-    # or https://www.deezer.com/en/track/{id}
-    match = url.to_s.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
-    return match[1] if match
-
-    # Short URL format: https://dzr.page.link/{random_id} or https://link.deezer.com/s/...
-    if url.to_s.include?("dzr.page.link") || url.to_s.include?("link.deezer.com/")
-      current_url = url.to_s
-      max_redirects = 5
-      max_redirects.times do
-        response = HTTParty.get(current_url, follow_redirects: false)
-        if response.code.between?(300, 399)
-          location = response.headers["location"]
-          if location.present?
-            match = location.match(/deezer\.com\/(?:\w+\/)?track\/(\d+)/)
-            return match[1] if match
-            current_url = location
-          else
-            break
-          end
-        else
-          break
-        end
-      end
-    end
-
-    nil
   end
 
   def parse_track_data(data)

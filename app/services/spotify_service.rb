@@ -11,6 +11,16 @@ class SpotifyService < MusicPlatformService
     get_track_by_id(track_id)
   end
 
+  def parse_track_url(url)
+    return nil unless url.present?
+
+    # https://open.spotify.com/track/{id}
+    # or https://open.spotify.com/track/{id}?si={some_param}
+    # or https://open.spotify.com/intl-xx/track/{id}
+    match = url.to_s.match(%r{spotify\.com/(?:intl-\w+/)?track/([A-Za-z0-9]+)})
+    match[1] if match
+  end
+
   def get_track_by_id(id)
     ensure_token
 
@@ -72,13 +82,6 @@ class SpotifyService < MusicPlatformService
     @client_secret = ENV["SPOTIFY_CLIENT_SECRET"]
     @access_token = nil
     @token_expires_at = nil
-  end
-
-  def parse_track_url(url)
-    # https://open.spotify.com/track/{id}
-    # or https://open.spotify.com/track/{id}?si={some_param}
-    match = url.match(/spotify\.com\/track\/([^?]+)/)
-    match[1] if match
   end
 
   def parse_track_data(data)

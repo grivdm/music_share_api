@@ -1,9 +1,8 @@
 class Track < ApplicationRecord
   has_many :platform_tracks, dependent: :destroy
 
-  validates :isrc, uniqueness: true, allow_blank: true,
-            format: { with: /\A[A-Z]{2}[A-Z0-9]{3}\d{7}\z/, message: "must be a valid ISRC format" },
-            if: :isrc?
+  validates :isrc, presence: true, uniqueness: true,
+            format: { with: /\A[A-Z]{2}[A-Z0-9]{3}\d{7}\z/, message: "must be a valid ISRC format" }
   validates :title, :artist, presence: true
   validates :duration, numericality: { greater_than: 0 }, allow_nil: true
   validates :release_year, numericality: {
