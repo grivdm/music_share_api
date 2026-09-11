@@ -31,7 +31,7 @@ gem "thruster", require: false
 
 gem "dotenv-rails", "~> 3.1"
 gem "httparty", "~> 0.23"
-gem "redis", "~> 5.4"
+gem "redis", "~> 6.0"
 gem "sidekiq", "~> 8.1"
 gem "rack-cors", "~> 3.0"
 gem "oj", "~> 3.17"
@@ -51,7 +51,7 @@ group :development, :test do
   gem "rspec-rails", "~> 8.0"
   gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.5"
-  gem "shoulda-matchers", "~> 7.0"
+  gem "shoulda-matchers", "~> 8.0"
   gem "webmock", "~> 3.26"
   gem "vcr", "~> 6.1"
   gem "pry-rails", "~> 0.3"
