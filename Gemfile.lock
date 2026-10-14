@@ -140,6 +140,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jaro_winkler (1.7.0)
+    json (2.21.1)
     kamal (2.12.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -151,7 +152,6 @@ GEM
       sshkit (>= 1.23.0, < 2.0)
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
-    json (2.21.1)
     kramdown (2.5.2)
       rexml (>= 3.4.4)
     kramdown-parser-gfm (1.1.0)
@@ -213,9 +213,9 @@ GEM
     parser (3.3.12.0)
       ast (~> 2.4.1)
       racc
-    pg (1.6.3-aarch64-linux)
-    pg (1.6.3-arm64-darwin)
-    pg (1.6.3-x86_64-linux)
+    pg (1.7.0-aarch64-linux)
+    pg (1.7.0-arm64-darwin)
+    pg (1.7.0-x86_64-linux)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.0)
@@ -457,7 +457,7 @@ DEPENDENCIES
   httparty (~> 0.23)
   kamal
   oj (~> 3.17)
-  pg (~> 1.6)
+  pg (~> 1.7)
   pry-rails (~> 0.3)
   puma (>= 5.0)
   rack-cors (~> 3.0)
